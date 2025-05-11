@@ -62,46 +62,50 @@
       transition: opacity 1s ease;
     }
 
-    .menu-item {
+    .savage-link {
       position: absolute;
-      width: 180px;
-      padding: 12px 16px;
-      text-align: center;
-      text-decoration: none;
-      border-radius: 14px;
-      color: #ffe8c3;
-      background: linear-gradient(145deg, #2c1b00, #1a0d00);
-      border: 1px solid #ff8000;
-      box-shadow: 0 0 25px rgba(255, 140, 0, 0.4), inset 0 0 10px rgba(255, 80, 0, 0.4);
-      transition: all 0.4s ease;
-      opacity: 0;
       pointer-events: auto;
-      font-weight: bold;
-      transform: scale(0.5);
+      opacity: 0;
+      animation: fadeInIcon 1s forwards;
     }
 
-    .menu-item:hover {
-      background: linear-gradient(145deg, #ff8000, #ff6600);
-      color: #fff;
-      opacity: 1;
-      transform: scale(1.1);
-      box-shadow: 0 0 35px #ff6600, inset 0 0 20px #ff9933;
+    .savage-icon {
+      width: 120px;
+      transition: transform 0.4s ease, filter 0.4s ease;
+      filter: drop-shadow(0 0 8px #ff6600);
+      cursor: pointer;
+    }
+
+    .savage-icon:hover {
+      transform: scale(1.1) rotate(-2deg);
+      filter: drop-shadow(0 0 18px #ffaa00);
+    }
+
+    @keyframes fadeInIcon {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
+  <audio id="tribalSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_81640b1d2b.mp3?filename=magic-fire-whoosh-116426.mp3"></audio>
+
   <div id="particles-js"></div>
   <img src="https://i.ibb.co/DfHhsVPY/Chat-GPT-Image-10-may-2025-01-09-47-p-m.png" alt="Logo Savage" class="logo">
 
-  <div class="menu-circle">
-    <a href="https://discord.gg/7jfYRR2qxc" target="_blank" class="menu-item menu-discord" style="top: calc(50% - 250px); left: 50%; transform: translate(-50%, -50%) scale(0.5);">
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">Discord
+  <div class="menu-circle" id="menu-circle">
+    <a href="https://discord.gg/7jfYRR2qxc" target="_blank" class="savage-link" style="top: calc(50% - 300px); left: calc(50% - 90px); transform: translate(-50%, -50%); animation-delay: 0.2s;">
+      <img src="https://i.ibb.co/7JWMHmTV/Discord.png" alt="Discord" class="savage-icon">
     </a>
-    <a href="https://guildsofwow.com/savagealliance/recruitment" target="_blank" class="menu-item menu-aplicar" style="top: 50%; left: calc(50% + 300px); transform: translate(-50%, -50%) scale(0.5);">Aplicar</a>
-    <a href="https://worldofwarcraft.blizzard.com/en-us/guild/us/drakkari/savage/" target="_blank" class="menu-item menu-guild" style="top: calc(50% + 250px); left: 50%; transform: translate(-50%, -50%) scale(0.5);">
-      <img src="https://i.ibb.co/DfHhsVPY/Chat-GPT-Image-10-may-2025-01-09-47-p-m.png" alt="Savage Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px; border-radius: 50%;">Ver Guild
+    <a href="https://guildsofwow.com/savagealliance/recruitment" target="_blank" class="savage-link" style="top: 50%; left: calc(50% + 220px); transform: translate(-50%, -50%); animation-delay: 0.4s;">
+      <img src="https://i.ibb.co/VkJZkb4/Aplicar.png" alt="Aplicar" class="savage-icon">
     </a>
-    <a href="#" class="menu-item menu-estadisticas" style="top: 50%; left: calc(50% - 300px); transform: translate(-50%, -50%) scale(0.5);" onclick="document.getElementById('quienes-somos').style.display='block'; document.getElementById('quienes-somos').style.opacity='1'; return false;">Reglas</a>
+    <a href="https://worldofwarcraft.blizzard.com/en-us/guild/us/drakkari/savage/" target="_blank" class="savage-link" style="top: calc(50% + 200px); left: calc(50% - 80px); transform: translate(-50%, -50%); animation-delay: 0.6s;">
+      <img src="https://i.ibb.co/YFhLdmLC/Chat-GPT-Image-10-may-2025-08-50-40-p-m.png" alt="Ver Guild" class="savage-icon">
+    </a>
+    <a href="#" onclick="const q = document.getElementById('quienes-somos'); if(q) { q.style.display='block'; q.style.opacity='1'; } return false;" class="savage-link" style="top: 50%; left: calc(50% - 340px); transform: translate(-50%, -50%); animation-delay: 0.8s;">
+      <img src="https://i.ibb.co/kVpvn1vW/Reglas.png" alt="Reglas" class="savage-icon">
+    </a>
   </div>
 
   <div id="quienes-somos" style="display: none; position: fixed; top: 10%; left: 50%; transform: translateX(-50%); width: 90%; max-width: 800px; max-height: 70vh; overflow-y: auto; padding: 20px; background: rgba(0, 0, 0, 0.9); border: 1px solid #ff8000; border-radius: 15px; color: #ffe8c3; font-size: 1.1em; z-index: 9999; box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);">
@@ -146,110 +150,121 @@
       </li>
     </ul>
   </div>
+<script>
+  const menu = document.getElementById('menu-circle');
 
-  <script>
-    const menu = document.querySelector('.menu-circle');
+  function showMenu() {
+    if (!menu) return;
 
-    function showMenu() {
-      const flash = document.createElement('div');
-      flash.style.position = 'absolute';
-      flash.style.top = '0';
-      flash.style.left = '0';
-      flash.style.width = '100%';
-      flash.style.height = '100%';
-      flash.style.zIndex = '5';
-      flash.style.background = 'radial-gradient(circle, rgba(255,160,0,0.4) 0%, rgba(0,0,0,0.8) 70%)';
-      flash.style.opacity = '0';
-      flash.style.transition = 'opacity 0.4s ease';
-      document.body.appendChild(flash);
-      setTimeout(() => {
-        flash.style.opacity = '1';
-        setTimeout(() => {
-          flash.style.opacity = '0';
-          setTimeout(() => document.body.removeChild(flash), 400);
-        }, 300);
-      }, 10);
-      menu.style.display = 'block';
-      setTimeout(() => menu.style.opacity = '1', 50);
-      const items = document.querySelectorAll('.menu-item');
-      items.forEach((item, index) => {
-        setTimeout(() => {
-          item.style.opacity = '1';
-          item.style.transform = item.style.transform.replace('scale(0.5)', 'scale(1)');
-        }, 300 * index);
-      });
-    }
-
-    const logo = document.querySelector('.logo');
-    logo.addEventListener('click', showMenu);
+    const flash = document.createElement('div');
+    flash.style.position = 'absolute';
+    flash.style.top = '0';
+    flash.style.left = '0';
+    flash.style.width = '100%';
+    flash.style.height = '100%';
+    flash.style.zIndex = '5';
+    flash.style.background = 'radial-gradient(circle, rgba(255,160,0,0.4) 0%, rgba(0,0,0,0.8) 70%)';
+    flash.style.opacity = '0';
+    flash.style.transition = 'opacity 0.4s ease';
+    document.body.appendChild(flash);
 
     setTimeout(() => {
-      if (getComputedStyle(menu).display === 'none' || getComputedStyle(menu).opacity === '0') {
-        showMenu();
-      }
-    }, 6000);
+      flash.style.opacity = '1';
+      setTimeout(() => {
+        flash.style.opacity = '0';
+        setTimeout(() => document.body.removeChild(flash), 400);
+      }, 300);
+    }, 10);
 
-    tsParticles.load("particles-js", {
-      particles: {
-        number: { value: 25 },
-        color: { value: "#ffaa00" },
-        shape: {
-          type: "char",
-          character: {
-            value: ["ᚠ", "ᚢ", "ᚦ", "ᚨ", "ᛗ", "ᛉ", "ᛟ"],
-            font: "Verdana",
-            style: "",
-            weight: "400",
-            fill: true
-          }
-        },
-        size: {
-          value: 10,
-          random: true
-        },
-        opacity: {
-          value: 0.4
-        },
-        move: {
-          enable: true,
-          speed: 0.8,
-          direction: "top",
-          outModes: "out"
-        },
-        rotate: {
-          value: { min: 0, max: 360 },
-          animation: {
-            enable: true,
-            speed: 3,
-            sync: false
-          }
-        }
-      },
-      interactivity: {
-        events: {
-          onHover: {
-            enable: true,
-            mode: "trail"
-          },
-          onClick: {
-            enable: false
-          }
-        },
-        modes: {
-          trail: {
-            delay: 0.2,
-            quantity: 1,
-            particles: {
-              color: { value: "#ffaa00" },
-              size: { value: 12 },
-              move: { speed: 0.5 },
-              opacity: { value: 0.6 }
-            }
-          }
-        }
-      },
-      background: { color: "#000" }
+    menu.style.display = 'block';
+    setTimeout(() => {
+      menu.style.opacity = '1';
+      document.querySelectorAll('.savage-link').forEach(el => {
+        el.style.animationPlayState = 'running';
+      });
+    }, 50);
+  }
+
+  document.querySelectorAll('.savage-icon').forEach(icon => {
+    icon.addEventListener('mouseenter', () => {
+      const sound = document.getElementById('tribalSound');
+      if (sound) {
+        sound.currentTime = 0;
+        sound.play();
+      }
     });
-  </script>
+  });
+
+  const logo = document.querySelector('.logo');
+  if (logo) logo.addEventListener('click', showMenu);
+
+  setTimeout(() => {
+    if (menu && (getComputedStyle(menu).display === 'none' || getComputedStyle(menu).opacity === '0')) {
+      showMenu();
+    }
+  }, 6000);
+
+  tsParticles.load("particles-js", {
+    particles: {
+      number: { value: 25 },
+      color: { value: "#ffaa00" },
+      shape: {
+        type: "char",
+        character: {
+          value: ["ᚠ", "ᚢ", "ᚦ", "ᚨ", "ᛗ", "ᛉ", "ᛟ"],
+          font: "Verdana",
+          style: "",
+          weight: "400",
+          fill: true
+        }
+      },
+      size: {
+        value: 10,
+        random: true
+      },
+      opacity: {
+        value: 0.4
+      },
+      move: {
+        enable: true,
+        speed: 0.8,
+        direction: "top",
+        outModes: "out"
+      },
+      rotate: {
+        value: { min: 0, max: 360 },
+        animation: {
+          enable: true,
+          speed: 3,
+          sync: false
+        }
+      }
+    },
+    interactivity: {
+      events: {
+        onHover: {
+          enable: true,
+          mode: "trail"
+        },
+        onClick: {
+          enable: false
+        }
+      },
+      modes: {
+        trail: {
+          delay: 0.2,
+          quantity: 1,
+          particles: {
+            color: { value: "#ffaa00" },
+            size: { value: 12 },
+            move: { speed: 0.5 },
+            opacity: { value: 0.6 }
+          }
+        }
+      }
+    },
+    background: { color: "#000" }
+  });
+</script>
 </body>
 </html>
