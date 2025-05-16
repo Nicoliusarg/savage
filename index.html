@@ -79,36 +79,39 @@
       100% { opacity: 1; transform: scale(1); }
     }
     .mobile-button-bar {
-      display: none;
-    }
-    @media (max-width: 768px) {
-      .menu-circle {
-        display: none !important;
-      }
-      .logo {
-        top: 30%;
-      }
-      .mobile-button-bar {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        flex-wrap: nowrap;
-        position: absolute;
-        top: 60%;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 4;
-        overflow-x: auto;
-        padding: 0 10px;
-        width: 100%;
-      }
-      .mobile-button-bar a img {
-        width: 48px;
-        height: 48px;
-        filter: drop-shadow(0 0 6px #ffaa00);
-        transition: transform 0.2s;
-        flex-shrink: 0;
-      }
+  display: none;
+}
+@media (max-width: 768px) {
+  .menu-circle {
+    display: none !important;
+  }
+  .logo {
+    top: 30%;
+  }
+  .mobile-button-bar {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    position: fixed;
+    bottom: 380px; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    overflow-x: auto;
+    overflow-y: visible; /* agregado */
+    padding: 10px 10px;  /* agregado */
+    width: 100%;
+    box-sizing: border-box; /* agregado */
+  }
+  .mobile-button-bar a img {
+    width: 44px; /* más chico para que no se corte */
+    height: 44px;
+    filter: drop-shadow(0 0 6px #ffaa00);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+}
       .mobile-button-bar a img:hover {
         transform: scale(1.1);
       }
