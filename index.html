@@ -2,416 +2,338 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>SAVAGE - WoW Guild</title>
+  <title>SAVAGE - Midnight WoW Guild</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="https://i.ibb.co/DfHhsVPY/Chat-GPT-Image-10-may-2025-01-09-47-p-m.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Rajdhani:wght@600;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.1/tsparticles.bundle.min.js"></script>
 
   <style>
     :root {
-      --bg: #000;
+      --bg: #000000;
       --text: #E8D9B8;
-      --highlight: #FF7E00;
+      --highlight: #7b2cbf;
+      --secondary-glow: #00b4d8;
+      --void-red: #ff0055;
     }
-    * { box-sizing:border-box; }
+    
+    * { box-sizing: border-box; }
+    
+    /* SCROLLBAR GLOBAL */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #050010; }
+    ::-webkit-scrollbar-thumb { background: var(--highlight); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--secondary-glow); }
+
     body {
       margin: 0;
       padding: 0;
-      background: var(--bg);
-      overflow: hidden;
+      background-color: var(--bg);
+      /* Scroll vertical activado para toda la página */
+      overflow-y: auto; 
+      overflow-x: hidden;
       font-family: 'Rajdhani', sans-serif;
-      height: 100vh;
-      position: relative;
+      min-height: 100vh;
       color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 5vh; 
+      padding-bottom: 50px;
     }
 
     #particles-js {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
     }
 
-    .logo {
-      width: 400px;
-      height: auto;
-      opacity: 0;
-      animation: fadeInCenter 2.5s ease-out forwards;
-      filter: drop-shadow(0 0 30px #ff6600);
-      position: absolute;
-      top: 45%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    .main-container {
+      position: relative;
       z-index: 2;
-      cursor: pointer;
-    }
-
-    /* cover alternativo si preferís no agregar div extra */
-/*    .logo::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 2px;
-      height: 160px;
-      background: #000;
-      pointer-events: none;
-      z-index: 1;
-    } */
-
-    @keyframes fadeInCenter {
-      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    }
-
-    .connector-cover {
-      position: absolute;
-      top: calc(45% + 80px); /* ajustar si movés logo */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 2px;
-      height: 160px;
-      background: #000;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .menu-bar {
-      position: absolute;
-      top: calc(50% + 160px);
-      left: 50%;
-      transform: translateX(-50%);
+      text-align: center;
       display: flex;
-      gap: 30px;
-      justify-content: center;
-      z-index: 3;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* LOGO */
+    .logo {
+      width: 750px;
+      max-width: 95vw;
+      height: auto;
+      -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 75%);
+      mask-image: radial-gradient(circle at center, black 40%, transparent 75%);
+      mix-blend-mode: lighten; 
+      animation: subtleFloat 6s ease-in-out infinite;
+      cursor: pointer;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.02);
+      filter: drop-shadow(0 0 60px rgba(123, 44, 191, 0.9));
+    }
+
+    @keyframes subtleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* CONECTORES */
+    .connector-line {
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--highlight), var(--secondary-glow), transparent);
+      opacity: 0.8;
+      box-shadow: 0 0 15px var(--highlight);
+    }
+    .connector-main { height: 60px; margin: -20px auto 15px auto; }
+    .connector-sub { height: 50px; margin: 10px auto 0 auto; }
+
+
+    /* MENÚ */
+    .menu-bar {
+      display: inline-flex;
+      gap: 50px;
+      padding: 25px 60px;
+      background: rgba(15, 5, 25, 0.7);
+      border: 1px solid rgba(123, 44, 191, 0.4);
+      border-radius: 80px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
     }
 
     .menu-bar a {
-      animation: fadeInIcon 1s ease forwards;
-      animation-delay: var(--delay, 0s);
-      opacity: 0;
-      text-decoration: none;
-      display: inline-block;
-      -webkit-tap-highlight-color: transparent;
-      outline: none;
       position: relative;
-    }
-    .menu-bar a img {
-      display: block;
-      user-select: none;
-      -webkit-user-drag: none;
-      border: none;
-      backface-visibility: hidden;
-      transform: translateZ(0);
-    }
-    .menu-bar a:focus,
-    .menu-bar a:active,
-    .menu-bar a:focus-visible {
-      outline: none;
-      box-shadow: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
     }
 
     .savage-icon {
-      width: 120px;
-      transition: transform 0.4s ease, filter 0.4s ease;
-      filter: drop-shadow(0 0 8px #ff6600);
-      cursor: pointer;
-    }
-    .savage-icon:hover {
-      transform: scale(1.1) rotate(-2deg);
-      filter: drop-shadow(0 0 18px #ffaa00);
+      width: 65px;
+      height: 65px;
+      object-fit: contain;
+      filter: grayscale(100%) brightness(0.8);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    @keyframes fadeInIcon {
-      0% { opacity: 0; transform: scale(0.8); }
-      100% { opacity: 1; transform: scale(1); }
+    .menu-bar a:hover .savage-icon {
+      filter: grayscale(0%) brightness(1.3) drop-shadow(0 0 25px var(--highlight));
+      transform: translateY(-10px) scale(1.2);
     }
+
+    .menu-bar a::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: -35px;
+      font-size: 14px;
+      color: var(--secondary-glow);
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px var(--highlight);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .menu-bar a:hover::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- WIDGET INTEGRADO "SEAMLESS" --- */
+    .widget-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 0; /* Pegado al conector */
+    }
+
+    iframe.seamless-widget {
+      width: 100%;
+      max-width: 550px; /* Ancho del contenido del widget */
+      /* Altura forzada para que quepa todo el contenido sin scroll interno */
+      height: 750px; 
+      border: none;
+      overflow: hidden; /* Oculta barras de desplazamiento del iframe */
+      display: block;
+      /* Opcional: una máscara sutil abajo por si sobra espacio */
+      mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    }
+
+    /* MODAL REGLAS */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      border-radius: 20px;
+      z-index: 9999;
+      backdrop-filter: blur(30px);
+      background: rgba(8, 0, 16, 0.98);
+      border: 1px solid var(--highlight);
+      box-shadow: 0 0 150px rgba(123, 44, 191, 0.5);
+      padding: 40px;
+      max-height: 85vh;
+      overflow-y: auto;
+      color: #ddd;
+    }
+    .close-modal {
+      position: absolute; top: 15px; right: 20px; background: none; border: none;
+      color: var(--secondary-glow); font-size: 28px; cursor: pointer; transition: color 0.3s;
+    }
+    .close-modal:hover { color: var(--highlight); text-shadow: 0 0 10px var(--highlight); }
+
+    /* Estilos Modal Contenido */
+    #modal-reglas h2 { text-align: center; color: var(--highlight); border-bottom: 2px solid var(--highlight); padding-bottom: 15px; font-family: 'Montserrat'; }
+    #modal-reglas h3 { color: var(--secondary-glow); margin-top: 25px; font-size: 1.3em; }
+    #modal-reglas ul { list-style: none; padding-left: 5px; }
+    #modal-reglas li { margin-bottom: 12px; line-height: 1.6; font-size: 1.05em; }
+    #modal-reglas strong { color: #fff; font-weight: 800; }
+    #modal-reglas .highlight-text { color: var(--void-red); font-weight: bold; }
+
+    /* MUSIC PLAYER */
+    #sc-float {
+      position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+      background: rgba(20, 0, 40, 0.8); border: 1px solid var(--highlight); border-radius: 50%; z-index: 100;
+      transition: all 0.4s ease; overflow: hidden; box-shadow: 0 0 20px var(--highlight);
+    }
+    #sc-float:hover { width: 320px; height: 180px; border-radius: 15px; background: #050010; }
+    .play-icon { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+    .play-icon::before { content: "🎵"; filter: hue-rotate(240deg); }
+    #sc-expanded { display: none; }
+    #sc-float:hover #sc-expanded { display: block; }
+    #sc-float:hover .play-icon { display: none; }
 
     @media (max-width: 768px) {
-      .menu-bar {
-        top: calc(50% + 140px);
-        gap: 18px;
-        flex-wrap: wrap;
-        padding: 10px;
-      }
-      .savage-icon { width: 70px; }
-      .logo { width: 280px; top: 40%; }
-      .connector-cover {
-        top: calc(40% + 80px);
-        height: 140px;
-      }
-    }
-
-    /* Floating SoundCloud player simplified */
-    #sc-float {
-      position: fixed;
-      top: 12px;
-      left: 12px;
-      width: 50px;
-      height: 50px;
-      background: rgba(0,0,0,0.9);
-      border: 2px solid var(--highlight);
-      border-radius: 10px;
-      box-shadow: 0 0 25px rgba(255,126,0,0.7);
-      z-index: 9999;
-      overflow: visible;
-      transition: width .25s ease, height .25s ease;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #sc-float.expanded {
-      width: 300px;
-      padding: 8px;
-      border-radius: 12px;
-      height: auto;
-    }
-    .play-icon {
-      width: 24px;
-      height: 24px;
-      background: linear-gradient(135deg,#ff7e00,#ffa33c);
-      mask: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzIgMzIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEwIDI0LjQzVjcuNTZsMTIuNDEgOC40MzEtMTIuNDEgOC40MzF6IiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==') center/contain no-repeat;
-      border-radius:50%;
-      box-shadow:0 0 10px rgba(255,126,0,0.8);
-      flex-shrink:0;
-    }
-    #sc-expanded {
-      display: none;
-      width: 100%;
-      position: relative;
-    }
-    .close-sc {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      background: transparent;
-      border: none;
-      color: var(--text);
-      font-size: 16px;
-      cursor: pointer;
-      padding: 2px 6px;
-    }
-    .header-sc {
-      font-size: 13px;
-      font-weight: 600;
-      color: #FF7E00;
-      margin-bottom:4px;
-      display:flex;
-      justify-content: space-between;
-      align-items:center;
-    }
-    #sc-player-wrapper {
-      width: 100%;
-      height: 166px;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-top: 4px;
+      .logo { width: 95vw; }
+      .menu-bar { padding: 20px 30px; gap: 25px; overflow-x: auto; max-width: 95vw; justify-content: flex-start; }
+      .savage-icon { width: 50px; height: 50px; }
     }
   </style>
 </head>
 <body>
-  <audio id="tribalSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_81640b1d2b.mp3?filename=magic-fire-whoosh-116426.mp3"></audio>
 
   <div id="particles-js"></div>
 
-  <!-- logo y cover que tapa la línea -->
-  <img src="https://i.ibb.co/DfHhsVPY/Chat-GPT-Image-10-may-2025-01-09-47-p-m.png" alt="Logo Savage" class="logo">
-  <div class="connector-cover" aria-hidden="true"></div>
+  <div class="main-container">
+    
+    <img src="https://i.ibb.co/7xqFKspt/Adobe-Express-file-1.jpg" alt="Logo Savage Midnight" class="logo">
+    
+    <div class="connector-line connector-main"></div>
 
-  <div class="menu-bar">
-    <a href="https://discord.gg/7jfYRR2qxc" target="_blank" style="--delay: 0.2s">
-      <img src="https://i.ibb.co/7JWMHmTV/Discord.png" alt="Discord" class="savage-icon">
-    </a>
-    <a href="https://guildsofwow.com/savagealliance/recruitment" target="_blank" style="--delay: 0.4s">
-      <img src="https://i.ibb.co/VkJZkb4/Aplicar.png" alt="Aplicar" class="savage-icon">
-    </a>
-    <a href="https://worldofwarcraft.blizzard.com/en-us/guild/us/drakkari/savage/" target="_blank" style="--delay: 0.6s">
-      <img src="https://i.ibb.co/YFhLdmLC/Chat-GPT-Image-10-may-2025-08-50-40-p-m.png" alt="Ver Guild" class="savage-icon">
-    </a>
-    <a href="https://www.savageoficial.online" target="_blank" style="--delay: 0.8s">
-      <img src="https://i.ibb.co/WpvVZ7xM/Chat-GPT-Image-19-may-2025-09-27-32-p-m.png" alt="Foro" class="savage-icon">
-    </a>
-    <a href="#" onclick="const q = document.getElementById('quienes-somos'); if(q) { q.style.display='block'; q.style.opacity='1'; } return false;" style="--delay: 1s">
-      <img src="https://i.ibb.co/V4j3MWH/Chat-GPT-Image-10-may-2025-09-31-43-p-m.png" alt="Reglas" class="savage-icon">
-    </a>
+    <div class="menu-bar">
+      <a href="https://discord.gg/7jfYRR2qxc" target="_blank" data-label="Discord">
+        <img src="https://i.ibb.co/7JWMHmTV/Discord.png" alt="Discord" class="savage-icon">
+      </a>
+      <a href="https://guildsofwow.com/savagealliance/recruitment" target="_blank" data-label="Aplicar">
+        <img src="https://i.ibb.co/VkJZkb4/Aplicar.png" alt="Aplicar" class="savage-icon">
+      </a>
+      <a href="https://worldofwarcraft.blizzard.com/en-us/guild/us/drakkari/savage/" target="_blank" data-label="Ver Guild">
+        <img src="https://i.ibb.co/YFhLdmLC/Chat-GPT-Image-10-may-2025-08-50-40-p-m.png" alt="Ver Guild" class="savage-icon">
+      </a>
+      <a href="https://www.savageoficial.online" target="_blank" data-label="Foro">
+        <img src="https://i.ibb.co/WpvVZ7xM/Chat-GPT-Image-19-may-2025-09-27-32-p-m.png" alt="Foro" class="savage-icon">
+      </a>
+      <a href="#" onclick="openModal('modal-reglas'); return false;" data-label="Reglas">
+        <img src="https://i.ibb.co/V4j3MWH/Chat-GPT-Image-10-may-2025-09-31-43-p-m.png" alt="Reglas" class="savage-icon">
+      </a>
+    </div>
+
+    <div class="connector-line connector-sub"></div>
+
+    <div class="widget-wrapper">
+      <iframe src="https://savageoficial.online/widgets/wow-info.php" class="seamless-widget" scrolling="no"></iframe>
+    </div>
+
   </div>
 
-  <div id="quienes-somos" style="display: none; position: fixed; top: 10%; left: 50%; transform: translateX(-50%); width: 90%; max-width: 800px; max-height: 70vh; overflow-y: auto; padding: 20px; background: rgba(0,0,0,0.9); border: 1px solid #ff8000; border-radius: 15px; color: #ffe8c3; font-size: 1.1em; z-index: 9999; box-shadow: 0 0 20px rgba(255,140,0,0.5);">
-    <button onclick="document.getElementById('quienes-somos').style.display='none';" style="position: absolute; top: 10px; right: 10px; background: #ff4400; border: none; color: white; padding: 4px 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">✖</button>
-    <h2 style="text-align: center; color: #ff9933;">¿Quiénes Somos?</h2>
-    <p>Somos <strong>SAVAGE</strong>, una hermandad con espíritu salvaje y compañerismo real. Buscamos jugadores comprometidos con ganas de mejorar y progresar en equipo. Nos mueve la <strong>lealtad, el respeto</strong> y la <strong>pasión por el juego</strong>.</p>
-    <h3 style="margin-top: 20px; color: #ff9933;">🛡️ Reglas Generales de Loot y Raid – Savage</h3>
-    <ul style="list-style: none; padding: 0;">
-      <li><strong>🔥 Reglas de participación:</strong>
-        <ul>
-          <li>Solo se permite obtener 1 ítem por boss.</li>
-          <li>El loot no se guarda ni se negocia. Lo que no se rolea en el momento, se pierde.</li>
-          <li>El personaje de raid se define la primera semana y no podrá cambiarse hasta la siguiente season.</li>
-          <li>Encantamientos obligatorios en Heroico/Mítico. Sin ellos, no se puede participar.</li>
-          <li>Penalización de -50% en tiradas si no está todo encantado, incluso en Normal.</li>
-          <li>Discusiones solo fuera del horario de raid con RL y oficiales.</li>
-        </ul>
-      </li>
-      <li><strong>💎 Sistema de Loot:</strong>
-        <ul>
-          <li>Loot entregado manualmente por loot council (3 personas: anunciante, verificador de BiS/Main, y analista de equipo).</li>
-          <li>Ítems raros se rolean entre los BiS, con prioridad establecida.</li>
-          <li>Tiradas reducidas un -50% para nuevos miembros por 2 semanas.</li>
-          <li>El consejo determina si se rolea como BiS o Main.</li>
-        </ul>
-      </li>
-      <li><strong>🧩 Prioridad especial para Tier Sets:</strong>
-        <ul>
-          <li>Se prioriza a quienes tengan 1 pieza (para formar 2) o 3 piezas (para formar 4).</li>
-        </ul>
-      </li>
-      <li><strong>📘 Definiciones importantes:</strong>
-        <ul>
-          <li><strong>🔷 BiS:</strong> Best in Slot – objeto óptimo con ambas estadísticas ideales.</li>
-          <li><strong>🔶 Main:</strong> objeto útil con al menos una estadística principal.</li>
-        </ul>
-      </li>
-      <li><strong>⚔️ Jerarquía de prioridades:</strong>
-        <ul>
-          <li>BiS &gt; Main &gt; ilvl Upgrade &gt; Off Spec &gt; Transfiguración</li>
-        </ul>
-      </li>
+  <div id="modal-reglas" class="modal-overlay" style="max-width: 850px;">
+    <button class="close-modal" onclick="closeAllModals()">✕</button>
+    <h2>📜 Reglas Generales - SAVAGE</h2>
+    <p style="font-size: 1.1em;">Somos <strong>SAVAGE</strong>, una hermandad con espíritu salvaje y compañerismo real. Buscamos jugadores comprometidos con ganas de mejorar y progresar en equipo. Nos mueve la <span class="highlight-text">lealtad, el respeto</span> y la <strong>pasión por el juego</strong>.</p>
+
+    <h3>🛡️ Reglas de Participación</h3>
+    <ul>
+      <li>🔥 Solo se permite obtener <strong>1 ítem por boss</strong>.</li>
+      <li>🔥 El loot no se guarda ni se negocia. Lo que no se rolea en el momento, se pierde.</li>
+      <li>🔥 El personaje de raid se define la primera semana y no podrá cambiarse hasta la siguiente season.</li>
+      <li>🔥 <span class="highlight-text">Encantamientos obligatorios</span> en Heroico/Mítico. Sin ellos, no se puede participar.</li>
+      <li>🔥 Penalización de <strong>-50% en tiradas</strong> si no está todo encantado, incluso en Normal.</li>
+      <li>🔥 Discusiones solo fuera del horario de raid con RL y oficiales.</li>
     </ul>
+
+    <h3>💎 Sistema de Loot</h3>
+    <ul>
+      <li>🔹 Loot entregado manualmente por <strong>Loot Council</strong> (Anunciante, Verificador BiS/Main, Analista).</li>
+      <li>🔹 Ítems raros se rolean entre los BiS, con prioridad establecida.</li>
+      <li>🔹 Tiradas reducidas un -50% para nuevos miembros por 2 semanas.</li>
+      <li>🔹 El consejo determina si se rolea como BiS o Main.</li>
+    </ul>
+
+    <h3>🧩 Prioridad Tier Sets</h3>
+    <ul>
+      <li>Se prioriza a quienes tengan 1 pieza (para formar 2) o 3 piezas (para formar 4).</li>
+    </ul>
+
+    <h3>📘 Definiciones</h3>
+    <ul>
+      <li><strong>🔷 BiS (Best in Slot):</strong> Objeto óptimo con ambas estadísticas ideales.</li>
+      <li><strong>🔶 Main:</strong> Objeto útil con al menos una estadística principal.</li>
+    </ul>
+
+    <h3>⚔️ Jerarquía de Prioridades</h3>
+    <p style="text-align: center; font-size: 1.3em; color: var(--highlight); font-weight: 800; border: 2px solid var(--highlight); padding: 15px; border-radius: 12px; background: rgba(123, 44, 191, 0.1);">
+      BiS > Main > ilvl Upgrade > Off Spec > Transfiguración
+    </p>
   </div>
 
-  <!-- SoundCloud floating simplified player -->
-  <div id="sc-float" aria-label="Raid Music">
-    <div class="play-icon" title="Raid Music"></div>
+  <div id="sc-float">
+    <div class="play-icon"></div>
     <div id="sc-expanded">
-      <button class="close-sc" aria-label="Cerrar">&times;</button>
-      <div class="header-sc">
-        <div>Raid Music</div>
-      </div>
-      <div id="sc-player-wrapper">
-        <iframe id="sc-player"
-          width="100%"
-          height="100%"
-          scrolling="no"
-          frameborder="no"
-          allow="autoplay"
-          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/2033076852&color=%23ff7e00&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
-        </iframe>
-      </div>
+      <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/2033076852&color=%237b2cbf&auto_play=false&hide_related=false&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true"></iframe>
     </div>
   </div>
 
-  <script src="https://w.soundcloud.com/player/api.js"></script>
   <script>
-    // sonido al hover
-    document.querySelectorAll('.savage-icon').forEach(icon => {
-      icon.addEventListener('mouseenter', () => {
-        const sound = document.getElementById('tribalSound');
-        if (sound) {
-          sound.currentTime = 0;
-          sound.play();
-        }
-      });
-    });
-
-    // partículas
+    // PARTICULAS
     tsParticles.load("particles-js", {
       particles: {
-        number: { value: 25 },
-        color: { value: "#ffaa00" },
-        shape: {
-          type: "char",
-          character: {
-            value: ["ᚠ", "ᚢ", "ᚦ", "ᚨ", "ᛗ", "ᛉ", "ᛟ"],
-            font: "Verdana",
-            style: "",
-            weight: "400",
-            fill: true
-          }
-        },
-        size: { value: 10, random: true },
-        opacity: { value: 0.4 },
-        move: { enable: true, speed: 0.8, direction: "top", outModes: "out" },
-        rotate: {
-          value: { min: 0, max: 360 },
-          animation: { enable: true, speed: 3, sync: false }
-        }
+        number: { value: 90, density: { enable: true, area: 800 } },
+        color: { value: ["#7b2cbf", "#3c096c", "#00b4d8"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 2.5, random: true },
+        move: { enable: true, speed: 0.6, direction: "none", random: true, outModes: "out" },
+        links: { enable: true, distance: 150, color: "#7b2cbf", opacity: 0.2, width: 1 }
       },
       interactivity: {
-        events: { onHover: { enable: true, mode: "trail" }, onClick: { enable: false } },
-        modes: {
-          trail: {
-            delay: 0.2,
-            quantity: 1,
-            particles: {
-              color: { value: "#ffaa00" },
-              size: { value: 12 },
-              move: { speed: 0.5 },
-              opacity: { value: 0.6 }
-            }
-          }
-        }
+        events: { onHover: { enable: true, mode: "grab" }, resize: true },
+        modes: { grab: { distance: 200, links: { opacity: 0.5, color: "#00b4d8" } } }
       },
-      background: { color: "#000" }
+      background: { color: "transparent" }
     });
 
-    // lógica: foco controlado y SoundCloud
-    (function(){
-      document.querySelectorAll('.menu-bar a').forEach(a => {
-        a.addEventListener('mouseup', () => a.blur());
-      });
-      document.addEventListener('mousedown', e => {
-        if (!e.target.closest('.menu-bar a')) {
-          document.querySelectorAll('.menu-bar a').forEach(a => a.blur());
-        }
-      });
+    function openModal(id) {
+      closeAllModals();
+      const m = document.getElementById(id);
+      m.style.display = 'block';
+      m.animate([
+        { opacity: 0, transform: 'translate(-50%, -40%) scale(0.9)' },
+        { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' }
+      ], { duration: 350, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', fill: 'forwards' });
+    }
 
-      const scFloat = document.getElementById('sc-float');
-      const expanded = document.getElementById('sc-expanded');
-      const closeBtn = expanded.querySelector('.close-sc');
-      const iframe = document.getElementById('sc-player');
-      let widget = SC.Widget(iframe);
-      let userInteracted = false;
-
-      const open = () => {
-        scFloat.classList.add('expanded');
-        expanded.style.display = 'block';
-      };
-      const close = () => {
-        scFloat.classList.remove('expanded');
-        expanded.style.display = 'none';
-      };
-
-      scFloat.addEventListener('mouseenter', open);
-      scFloat.addEventListener('click', e => {
-        userInteracted = true;
-        open();
-        widget.play();
-      });
-      closeBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        close();
-        widget.pause();
-      });
-
-      const tryPlay = () => {
-        if (userInteracted) return;
-        userInteracted = true;
-        widget.play();
-        window.removeEventListener('click', tryPlay);
-      };
-      window.addEventListener('click', tryPlay, { once: true });
-
-      widget.bind(SC.Widget.Events.PLAY, () => {
-        // opcional feedback
-      });
-    })();
+    function closeAllModals() {
+      document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+    }
   </script>
 </body>
 </html>
-
-
-
